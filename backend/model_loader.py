@@ -79,6 +79,19 @@ def load_model() -> SentimentModel:
     """
     global _model
 
+    def load_model() -> SentimentModel:
+    global _model
+
+    print("=" * 60)
+    print(f"[DEBUG] MODEL_PATH = {MODEL_PATH}")
+    print(f"[DEBUG] HF_MODEL_REPO = {HF_MODEL_REPO}")
+    print(f"[DEBUG] MODEL_PATH exists = {os.path.isdir(MODEL_PATH)}")
+
+    if os.path.isdir(MODEL_PATH):
+        print(f"[DEBUG] MODEL_PATH contents = {os.listdir(MODEL_PATH)}")
+
+    print("=" * 60)
+
     model_missing = not os.path.isdir(MODEL_PATH) or not os.listdir(MODEL_PATH)
 
     if model_missing and HF_MODEL_REPO:
