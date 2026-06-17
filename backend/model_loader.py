@@ -79,9 +79,6 @@ def load_model() -> SentimentModel:
     """
     global _model
 
-    def load_model() -> SentimentModel:
-    global _model
-
     print("=" * 60)
     print(f"[DEBUG] MODEL_PATH = {MODEL_PATH}")
     print(f"[DEBUG] HF_MODEL_REPO = {HF_MODEL_REPO}")
