@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Review Intelligence — Predict</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style_additions.css" />
+</head>
+<body>
+
+<header class="app-header">
+  <span class="brand">
+    <span class="dot"></span>
+    Review Intelligence
+  </span>
+  <nav class="app-nav">
+    <a href="index.html" class="active">Single Review</a>
+    <a href="batch.html">Batch Analysis</a>
+    <a href="analytics.html">Analytics</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h1 class="page-title">Predict Sentiment</h1>
+  <p class="page-subtitle">Paste any customer review and get an instant Positive / Neutral / Negative score.</p>
+
+  <!-- Model status banner -->
+  <div id="model-banner" class="banner warning visible">
+    Checking model status…
+  </div>
+
+  <div class="card">
+    <h2>Review Text</h2>
+    <textarea
+      id="review-input"
+      placeholder="e.g. The product quality was excellent but delivery took two extra weeks."
+      maxlength="10000"
+    ></textarea>
+    <div id="input-error" class="field-error">Please enter some review text before analysing.</div>
+    <div class="form-row">
+      <button id="predict-btn" disabled>
+        <span id="btn-label">Analyse</span>
+        <span id="btn-spinner" class="spinner" style="display:none;"></span>
+      </button>
+      <button class="secondary" id="clear-btn">Clear</button>
+      <span class="char-count"><span id="char-count">0</span> / 10 000</span>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div id="result-loading" class="result-loading">
+    <span class="spinner"></span>
+    Running sentiment analysis…
+  </div>
+
+  <!-- Result -->
+  <div id="result-card" class="result-card">
+    <div class="result-header">
+      <div class="result-label">
+        <span id="result-pill" class="label-pill"></span>
+        <span id="result-confidence"></span>
+      </div>
+      <!-- Improved uncertainty badge — populated by JS -->
+      <span id="uncertain-badge" class="uncertain-badge" style="display:none;">
+        <span class="uncertain-icon">⚠</span>
+        <span class="uncertain-label">
+          <strong>Review manually</strong>
+          <span>Confidence below threshold</span>
+        </span>
+      </span>
+    </div>
+
+    <div id="score-bars"></div>
+
+    <!-- Timestamp of this prediction -->
+    <div id="result-timestamp" class="muted" style="margin-top:0.75rem;font-size:0.78rem;"></div>
+  </div>
+</main>
+
+<footer class="app-footer">
+  <div>
+    Powered by DistilBERT · <a href="/docs">API docs</a>
+  </div>
+  <div class="footer-model-info">
+    <span class="model-chip"><span class="chip-dot"></span>distilbert-base-uncased</span>
+    <span class="model-chip"><span class="chip-dot"></span>Macro F1 ≈ 0.89</span>
+    <span class="model-chip"><span class="chip-dot"></span>3-class sentiment</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  initSinglePage();
+</script>
+</body>
+</html>

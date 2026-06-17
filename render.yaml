@@ -1,0 +1,19 @@
+# render.yaml
+# Render Blueprint — defines this app's deployment configuration.
+# Connect the repo at render.com and it will read this file automatically,
+# or configure the same values manually in the dashboard.
+
+services:
+  - type: web
+    name: customer-review-intelligence
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: HF_MODEL_REPO
+        sync: false   # set manually in Render dashboard, e.g. your-username/distilbert-review-sentiment
+      - key: HF_TOKEN
+        sync: false   # only required if HF_MODEL_REPO is a private repo
+      - key: PYTHON_VERSION
+        value: "3.11.0"

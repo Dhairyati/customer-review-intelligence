@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Review Intelligence — Batch Analysis</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="app-header">
+  <span class="brand">
+    <span class="dot"></span>
+    Review Intelligence
+  </span>
+  <nav class="app-nav">
+    <a href="index.html">Single Review</a>
+    <a href="batch.html" class="active">Batch Analysis</a>
+    <a href="analytics.html">Analytics</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h1 class="page-title">Batch Analysis</h1>
+  <p class="page-subtitle">Score up to 2 000 reviews at once. Enter one review per line, or upload a plain-text / CSV file.</p>
+
+  <div id="model-banner" class="banner warning visible">
+    Checking model status…
+  </div>
+
+  <!-- Input card -->
+  <div class="card">
+    <h2>Reviews</h2>
+
+    <!-- File upload -->
+    <div class="upload-area" id="upload-area">
+      <div class="upload-icon">📂</div>
+      <div>Drop a <strong>.txt</strong> or <strong>.csv</strong> file here, or
+        <label for="file-input" style="color:var(--color-neutral);cursor:pointer;text-decoration:underline;">browse</label>
+      </div>
+      <input type="file" id="file-input" accept=".txt,.csv" />
+      <div class="progress-text" id="file-label">No file selected</div>
+    </div>
+    <div id="file-error" class="field-error">The uploaded file contains no readable reviews.</div>
+
+    <div style="margin:1rem 0;text-align:center;color:var(--color-text-muted);font-size:0.85rem;">— or type / paste below —</div>
+
+    <textarea
+      id="batch-input"
+      placeholder="One review per line:&#10;Great product, fast shipping.&#10;Broke after two days.&#10;Decent value for money."
+      style="min-height:160px;"
+    ></textarea>
+    <div id="input-error" class="field-error">Add at least one review before running analysis.</div>
+
+    <div class="form-row">
+      <button id="batch-btn" disabled>
+        <span id="btn-label">Run Analysis</span>
+        <span id="btn-spinner" class="spinner" style="display:none;"></span>
+      </button>
+      <button class="secondary" id="clear-btn">Clear</button>
+      <span class="char-count"><span id="review-count">0</span> reviews</span>
+    </div>
+
+    <!-- Indeterminate progress bar shown while waiting for API -->
+    <div id="batch-progress" class="batch-progress">
+      <div class="batch-progress-bar"><div class="batch-progress-fill"></div></div>
+      <div class="progress-text" id="progress-text">Scoring reviews…</div>
+    </div>
+  </div>
+
+  <!-- Summary stats -->
+  <div id="summary-section" style="display:none;">
+    <div class="stat-grid" id="stat-grid"></div>
+
+    <!-- Highlight cards (most positive / negative / uncertain) -->
+    <div id="highlight-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;margin-bottom:1.25rem;"></div>
+
+    <!-- Results table -->
+    <div class="card">
+      <h2>
+        Results <span id="results-count" class="muted"></span>
+        <button id="download-csv-btn" class="secondary" style="float:right;">⬇ Download CSV</button>
+      </h2>
+      <div class="table-wrapper">
+        <table id="results-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Review</th>
+              <th>Label</th>
+              <th>Confidence</th>
+              <th>Positive</th>
+              <th>Neutral</th>
+              <th>Negative</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="error-banner" class="banner error"></div>
+</main>
+
+<footer class="app-footer">
+  <div>
+    Powered by DistilBERT · <a href="/docs">API docs</a>
+  </div>
+  <div class="footer-model-info">
+    <span class="model-chip"><span class="chip-dot"></span>distilbert-base-uncased</span>
+    <span class="model-chip"><span class="chip-dot"></span>Macro F1 ≈ 0.89</span>
+    <span class="model-chip"><span class="chip-dot"></span>3-class sentiment</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  initBatchPage();
+</script>
+</body>
+</html>

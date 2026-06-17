@@ -1,0 +1,38 @@
+# ── Python ───────────────────────────────────────────────────────────────
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.egg-info/
+
+# ── Environment / secrets ──────────────────────────────────────────────
+.env
+.env.local
+
+# ── Model weights (too large for git, hosted on Hugging Face Hub) ────────
+model/*
+!model/.gitkeep
+
+# ── Generated data (reproducible from notebooks, not source of truth) ────
+data/train.csv
+data/val.csv
+data/test.csv
+data/sample_reviews.csv
+data/analytics_history.json
+data/*.png
+data/evaluation_summary.json
+
+# ── Jupyter ──────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── OS / editor ──────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp
+
+# ── Logs ────────────────────────────────────────────────────────────────
+*.log
+logs/

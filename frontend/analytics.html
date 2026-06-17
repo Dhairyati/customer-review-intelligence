@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Review Intelligence — Analytics</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style_additions.css" />
+  <!-- Chart.js for trend charts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
+</head>
+<body>
+
+<header class="app-header">
+  <span class="brand">
+    <span class="dot"></span>
+    Review Intelligence
+  </span>
+  <nav class="app-nav">
+    <a href="index.html">Single Review</a>
+    <a href="batch.html">Batch Analysis</a>
+    <a href="analytics.html" class="active">Analytics</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h1 class="page-title">Analytics Dashboard</h1>
+  <p class="page-subtitle">Sentiment trends across all batch runs, most recent first.</p>
+
+  <div id="empty-state" class="card empty-state" style="display:none;">
+    No batch runs recorded yet. Head to <a href="batch.html">Batch Analysis</a> to run your first analysis.
+  </div>
+
+  <div id="analytics-content" style="display:none;">
+
+    <!-- Latest run KPIs -->
+    <div class="card">
+      <h2>Latest Run</h2>
+      <div class="stat-grid" id="latest-stats"></div>
+      <div class="muted" id="latest-meta" style="margin-top:0.5rem;font-size:0.8rem;"></div>
+    </div>
+
+    <!-- Trend charts -->
+    <div class="chart-grid" style="margin-bottom:1.25rem;">
+      <div class="card" style="margin-bottom:0;">
+        <h2>Sentiment Trend</h2>
+        <div class="chart-container">
+          <canvas id="trend-chart"></canvas>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:0;">
+        <h2>Avg Confidence Trend</h2>
+        <div class="chart-container">
+          <canvas id="confidence-chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- History table -->
+    <div class="card">
+      <h2>Run History</h2>
+      <div class="table-wrapper">
+        <table id="history-table">
+          <thead>
+            <tr>
+              <th>Date / Time</th>
+              <th>Reviews</th>
+              <th>Positive</th>
+              <th>Neutral</th>
+              <th>Negative</th>
+              <th>Uncertain</th>
+              <th>Avg Conf.</th>
+            </tr>
+          </thead>
+          <tbody id="history-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Highlight texts: most positive / negative / uncertain from latest run -->
+    <div id="highlight-texts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;margin-bottom:1.25rem;"></div>
+
+  </div>
+</main>
+
+<footer class="app-footer">
+  <div>
+    Powered by DistilBERT · <a href="/docs">API docs</a>
+  </div>
+  <div class="footer-model-info">
+    <span class="model-chip"><span class="chip-dot"></span>distilbert-base-uncased</span>
+    <span class="model-chip"><span class="chip-dot"></span>Macro F1 ≈ 0.89</span>
+    <span class="model-chip"><span class="chip-dot"></span>3-class sentiment</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  // Wait for Chart.js to load before initialising
+  document.querySelector('script[src*="chart"]').addEventListener('load', initAnalyticsPage);
+  if (typeof Chart !== 'undefined') initAnalyticsPage();
+</script>
+</body>
+</html>
